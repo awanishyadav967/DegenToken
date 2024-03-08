@@ -1,41 +1,62 @@
-# Project Title
+# Degen Token (ERC-20): Unlocking the Future of Gaming
 
-Simple overview of use/purpose.
+## Overview
 
-## Description
-
-An in-depth paragraph about your project and overview of use.
+Welcome to the Degen Token (ERC-20) project! This Ethereum-based smart contract is deployed on the FUJI testnet and aims to create fungible tokens that can be used for gaming-related rewards. The contract adheres to the ERC-20 standard and provides essential functionalities like token minting, transfer, redemption, burning, balance checking, and more.
 
 ## Getting Started
 
-### Installing
+To run this contract, follow the steps below:
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+1. Visit [Remix](https://remix.ethereum.org/) - an online Solidity IDE.
+2. Create a new file with a .sol extension.
+3. Copy and paste the provided code into the file.
+4. Ensure the compiler version is set to "0.8.9" or a compatible version.
+5. Compile the code using the "Solidity Compiler" tab.
+6. Deploy the contract using the "Deploy & Run Transactions" tab.
 
-### Executing program
+## Contract Features
 
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
+### Minting Tokens
 
-## Help
+- The contract allows the owner to mint new tokens using the `mint` function.
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+### Transferring Tokens
 
-## Authors
+- Token holders can transfer tokens to other addresses through the `transfer` function.
 
-Contributors names and contact info
+### Redeeming Rewards
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+- Users can redeem rewards using the `claimReward` function, provided they have enough tokens.
 
+### Burning Tokens
 
-## License
+- The owner can burn tokens using the `burn` function.
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+### Checking Balances
+
+- The contract supports checking token balances and available rewards.
+
+### Reward System
+
+- The contract features a reward system with predefined rewards and associated costs.
+
+## Rewards
+
+- Official Degen NFT - 50 tokens
+- Merchandise - 100 tokens
+- Credits - 100 tokens
+
+## Additional Information
+
+- The contract includes a struct for rewards, a mapping to track claimed rewards, and functions to interact with the contract.
+
+## Usage Example
+
+```solidity
+// Example of interacting with the contract
+DegenToken token = DegenToken(contractAddress);
+token.mint(addressTo, amount);
+token.transfer(anotherAddress, transferAmount);
+token.claimReward(rewardIndex);
+token.burn(addressFrom, burnAmount);
