@@ -1,62 +1,97 @@
-# Degen Token (ERC-20): Unlocking the Future of Gaming
+This contract empowers the creation of ERC-20 fungible tokens, unlocking a realm where digital assets can seamlessly be transferred, minted, and utilized for rewarding gaming experiences.
 
-## Overview
+## Description
 
-Welcome to the Degen Token (ERC-20) project! This Ethereum-based smart contract is deployed on the FUJI testnet and aims to create fungible tokens that can be used for gaming-related rewards. The contract adheres to the ERC-20 standard and provides essential functionalities like token minting, transfer, redemption, burning, balance checking, and more.
+Deployed on the FUJI testnet, this contract is designed to generate fungible tokens tailored for redeemable rewards within the gaming ecosystem. Leveraging the ERC-20 standard, it seamlessly operates on the Fuji network, providing a robust set of functionalities:
+
+- Minting of Tokens
+- Transfer of Tokens
+- Redeeming of Tokens
+- Burning of Tokens
+- Checking of Balances
 
 ## Getting Started
 
-To run this contract, follow the steps below:
+### Executing program
 
-1. Visit [Remix](https://remix.ethereum.org/) - an online Solidity IDE.
-2. Create a new file with a .sol extension.
-3. Copy and paste the provided code into the file.
-4. Ensure the compiler version is set to "0.8.9" or a compatible version.
-5. Compile the code using the "Solidity Compiler" tab.
-6. Deploy the contract using the "Deploy & Run Transactions" tab.
+Executing program To run this program, you can use Remix, an online Solidity IDE. To get started, go to the Remix website at https://remix.ethereum.org/.
 
-## Contract Features
+Once you are on the Remix website, create a new file by clicking on the "+" icon in the left-hand sidebar. Save the file with a .sol extension (e.g., HelloWorld.sol). Copy and paste the following code into the file:
 
-### Minting Tokens
+```javascript
+// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
 
-- The contract allows the owner to mint new tokens using the `mint` function.
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-### Transferring Tokens
+contract DegenToken is ERC20, Ownable {
+    struct Reward {
+        string name;
+        uint256 cost;
+    }
+    Reward[] public rewards; // List of available rewards
+    mapping(address => mapping(uint256 => bool)) public claimedRewards;
+    constructor() ERC20("Degen", "DGN") {
+        rewards.push(Reward("Official Degen NFT - ", 50));
+        rewards.push(Reward("Merchandise - ", 100));
+        rewards.push(Reward("Credits -", 100));
+    }
+    function getTotalRewards() public view returns (uint256) {
+        return rewards.length;
+    }
 
-- Token holders can transfer tokens to other addresses through the `transfer` function.
+    function decimals() public pure override returns(uint8){
+        return 0;
+    }
 
-### Redeeming Rewards
+    function claimReward(uint256 rewardIndex) public {
+        require(rewardIndex < rewards.length, "Reward index out of bounds");
+        require(!claimedRewards[msg.sender][rewardIndex], "Reward already claimed");
+        require(balanceOf(msg.sender) >= rewards[rewardIndex].cost, "Insufficient tokens");
+        _approve(msg.sender,address(this),rewards[rewardIndex].cost);
+        transfer(address(this), rewards[rewardIndex].cost);
+        claimedRewards[msg.sender][rewardIndex] = true;
+    }
 
-- Users can redeem rewards using the `claimReward` function, provided they have enough tokens.
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+    function transfer(address to,uint amount) public override returns(bool){
+        require(amount <= balanceOf(msg.sender), "ERC20: transfer amount exceeds balance");
+        _transfer(msg.sender, to, amount);
+        return false;
+    }
 
-### Burning Tokens
+    function shop() public view returns(Reward[] memory) {
+        return rewards;
 
-- The owner can burn tokens using the `burn` function.
+    }
 
-### Checking Balances
 
-- The contract supports checking token balances and available rewards.
+    function burn(address from, uint256 amount) public onlyOwner {
+        _burn(from, amount);
+    }
+}
+```
 
-### Reward System
+To compile the code, click on the "Solidity Compiler" tab in the left-hand sidebar. Make sure the "Compiler" option is set to "0.8.9" (or another compatible version), and then click on the "Compile HelloWorld.sol" button.
 
-- The contract features a reward system with predefined rewards and associated costs.
+Once the code is compiled, you can deploy the contract by clicking on the "Deploy & Run Transactions" tab in the left-hand sidebar. Select the "DegenToken" contract from the dropdown menu, and then click on the "Deploy" button.
 
-## Rewards
+Once the contract is deployed, you can interact with it by calling the sayHello function. Click on the "DegenToken" contract in the left-hand sidebar, and then click on multiple functions available. Finally, click on the "transact" button to execute the function and retrieve the appropriate messages.
 
-- Official Degen NFT - 50 tokens
-- Merchandise - 100 tokens
-- Credits - 100 tokens
+## Proof of work as the Fuji Contract detail
 
-## Additional Information
+### Contract Address is provided as Application id as well
 
-- The contract includes a struct for rewards, a mapping to track claimed rewards, and functions to interact with the contract.
+![Alt text](image.png)
 
-## Usage Example
+## Authors
 
-```solidity
-// Example of interacting with the contract
-DegenToken token = DegenToken(contractAddress);
-token.mint(addressTo, amount);
-token.transfer(anotherAddress, transferAmount);
-token.claimReward(rewardIndex);
-token.burn(addressFrom, burnAmount);
+Avanish Yadav
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
