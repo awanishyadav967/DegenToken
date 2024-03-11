@@ -86,7 +86,7 @@ Once the contract is deployed, you can interact with it by calling the sayHello 
 
 ### Contract Address is provided as Application id as well
 
-![Alt text](image.png)
+![Alt text](Screenshot1.png)
 
 ## Authors
 
